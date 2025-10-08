@@ -2,7 +2,7 @@
 import React, { useState, useContext } from 'react';
 import { View, Text, Modal, TextInput, TouchableOpacity, StyleSheet, ScrollView, Alert } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import { TransactionsContext } from '../context/TransactionsContext';
+import { TransactionsContext } from '../hooks/useTransactions';
 import { Picker } from '@react-native-picker/picker';
 
 export default function TransactionModal({ visible, type, onClose }) {
