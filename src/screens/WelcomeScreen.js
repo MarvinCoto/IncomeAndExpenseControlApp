@@ -44,6 +44,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#f8fafc',
     justifyContent: 'space-between',
     padding: 20,
+    paddingBottom: 40,
   },
   content: {
     flex: 1,

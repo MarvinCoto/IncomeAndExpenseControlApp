@@ -23,7 +23,7 @@ export default function AddScreen() {
       <View style={styles.buttonsContainer}>
         <TouchableOpacity style={styles.card} onPress={() => openModal('ingreso')}>
           <View style={styles.iconContainer}>
-            <Ionicons name="arrow-down-circle" size={60} color="#10b981" />
+            <Ionicons name="arrow-up-circle" size={60} color="#10b981" />
           </View>
           <Text style={styles.cardTitle}>Agregar Ingreso</Text>
           <Text style={styles.cardSubtitle}>Registra tus entradas de dinero</Text>
@@ -35,7 +35,7 @@ export default function AddScreen() {
 
         <TouchableOpacity style={styles.card} onPress={() => openModal('gasto')}>
           <View style={styles.iconContainer}>
-            <Ionicons name="arrow-up-circle" size={60} color="#ef4444" />
+            <Ionicons name="arrow-down-circle" size={60} color="#ef4444" />
           </View>
           <Text style={styles.cardTitle}>Agregar Gasto</Text>
           <Text style={styles.cardSubtitle}>Registra tus salidas de dinero</Text>

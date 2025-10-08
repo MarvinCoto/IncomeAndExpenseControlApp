@@ -1,10 +1,10 @@
 // src/screens/HomeScreen.js
 import React, { useContext } from 'react';
-import { View, Text, ScrollView, StyleSheet, TouchableOpacity, Alert } from 'react-native';
+import { View, Text, ScrollView, StyleSheet, TouchableOpacity } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { TransactionsContext } from '../hooks/useTransactions';
 
-export default function HomeScreen() {
+export default function HomeScreen({ navigation }) {
   const { getTotals, getRecentTransactions, transactions } = useContext(TransactionsContext);
   const { ingresos, gastos, balance } = getTotals();
   const recentTransactions = getRecentTransactions();
@@ -19,27 +19,11 @@ export default function HomeScreen() {
   };
 
   const showIncomesHistory = () => {
-    const incomesList = transactions.filter(t => t.type === 'ingreso');
-    if (incomesList.length === 0) {
-      Alert.alert('Historial de Ingresos', 'No hay ingresos registrados aún');
-    } else {
-      const message = incomesList.map(t => 
-        `${t.category}: ${formatCurrency(t.amount)} - ${formatDate(t.createdAt)}`
-      ).join('\n');
-      Alert.alert('Historial de Ingresos', message);
-    }
+    navigation.navigate('IncomeHistory');
   };
 
   const showExpensesHistory = () => {
-    const expensesList = transactions.filter(t => t.type === 'gasto');
-    if (expensesList.length === 0) {
-      Alert.alert('Historial de Gastos', 'No hay gastos registrados aún');
-    } else {
-      const message = expensesList.map(t => 
-        `${t.category}: ${formatCurrency(t.amount)} - ${formatDate(t.createdAt)}`
-      ).join('\n');
-      Alert.alert('Historial de Gastos', message);
-    }
+    navigation.navigate('ExpenseHistory');
   };
 
   return (
@@ -51,10 +35,17 @@ export default function HomeScreen() {
 
       {/* Balance Principal */}
       <View style={styles.balanceCard}>
-        <Text style={styles.balanceLabel}>Balance Total</Text>
-        <Text style={[styles.balanceAmount, { color: balance >= 0 ? '#10b981' : '#ef4444' }]}>
-          {formatCurrency(balance)}
-        </Text>
+        <Ionicons 
+          name={balance >= 0 ? "trending-up" : "trending-down"} 
+          size={40} 
+          color={balance >= 0 ? '#10b981' : '#ef4444'} 
+        />
+        <View style={styles.balanceInfo}>
+          <Text style={styles.balanceLabel}>Balance Total</Text>
+          <Text style={[styles.balanceAmount, { color: balance >= 0 ? '#10b981' : '#ef4444' }]}>
+            {formatCurrency(balance)}
+          </Text>
+        </View>
       </View>
 
       {/* Tarjetas de Ingresos y Gastos */}
@@ -146,9 +137,28 @@ const styles = StyleSheet.create({
   header: { padding: 20, paddingTop: 60 },
   headerTitle: { fontSize: 28, fontWeight: 'bold', color: '#1e293b' },
   headerSubtitle: { fontSize: 14, color: '#64748b', marginTop: 4 },
-  balanceCard: { backgroundColor: '#2563eb', margin: 20, marginTop: 10, padding: 24, borderRadius: 16, alignItems: 'center' },
-  balanceLabel: { color: '#bfdbfe', fontSize: 14, marginBottom: 8 },
-  balanceAmount: { fontSize: 36, fontWeight: 'bold', color: 'white' },
+  balanceCard: { 
+    backgroundColor: 'white', 
+    margin: 20, 
+    marginTop: 10, 
+    padding: 20, 
+    borderRadius: 12, 
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 16
+  },
+  balanceInfo: {
+    flex: 1,
+  },
+  balanceLabel: { 
+    color: '#64748b', 
+    fontSize: 14, 
+    marginBottom: 4 
+  },
+  balanceAmount: { 
+    fontSize: 32, 
+    fontWeight: 'bold' 
+  },
   statsContainer: { flexDirection: 'row', paddingHorizontal: 20, gap: 12 },
   statCard: { flex: 1, backgroundColor: 'white', padding: 16, borderRadius: 12, alignItems: 'center' },
   statLabel: { fontSize: 12, color: '#64748b', marginTop: 8 },
